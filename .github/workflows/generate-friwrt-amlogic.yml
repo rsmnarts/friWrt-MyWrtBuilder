@@ -355,7 +355,7 @@ jobs:
         uses: svenstaro/upload-release-action@v2
         if: ${{ steps.prep_upload.outputs.status }} == 'success' && !cancelled()
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          repo_token: ${{ secrets.REPO_TOKEN }}
           file_glob: true
           file: ${{ env.PACKAGED_OUTPUTPATH }}/*
           asset_name: ${{ github.event.repository.name }}-${{ github.sha }}
