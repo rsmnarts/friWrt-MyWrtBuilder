@@ -95,12 +95,18 @@ fi
 echo "Setup custom repo using MyOPKG Repo"
 if grep -qE '^VERSION_ID="21' /etc/os-release; then
   sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
-  echo "src/gz custom_generic https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/21.02/generic" >> /etc/opkg/customfeeds.conf
-  echo "src/gz custom_arch https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/21.02/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
+  echo "src/gz custom_generic https://github.com/lrdrdn/my-opkg-repo/raw/21.02/generic" >> /etc/opkg/customfeeds.conf
+  echo "src/gz custom_arch https://github.com/lrdrdn/my-opkg-repo/raw/21.02/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
 else
   sed -i 's/option check_signature/# option check_signature/g' /etc/opkg.conf
-  echo "src/gz custom_generic https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/generic" >> /etc/opkg/customfeeds.conf
-  echo "src/gz custom_arch https://raw.githubusercontent.com/lrdrdn/my-opkg-repo/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
+
+  # modem-extras from 4IceG
+  echo "src/gz IceG_repo https://github.com/4IceG/Modem-extras/raw/main/myrepo" >> /etc/opkg/customfeeds.conf
+  wget https://github.com/4IceG/Modem-extras/raw/main/myrepo/IceG-repo.pub -O /tmp/IceG-repo.pub
+  opkg-key add /tmp/IceG-repo.pub
+
+  echo "src/gz custom_generic https://github.com/lrdrdn/my-opkg-repo/raw/main/generic" >> /etc/opkg/customfeeds.conf
+  echo "src/gz custom_arch https://github.com/lrdrdn/my-opkg-repo/raw/main/$(grep "OPENWRT_ARCH" /etc/os-release | awk -F '"' '{print $2}')" >> /etc/opkg/customfeeds.conf
 fi
 
 # setting firewall for samba4
