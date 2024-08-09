@@ -203,10 +203,10 @@ jobs:
             RELEASE="$DOWNLOAD_BASE/releases/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$BRANCH-$TARGET_NAME.Linux-x86_64.tar.xz"
             if [ "$BRANCH" == "snapshots" ]; then
               wget -nv "$SNAPSHOTS"
-              tar -xJf *-imagebuilder-*
+              tar --use-compress-program=zstd -xf *-imagebuilder-*
             else
-              wget -nv "$RELEASE"
-              tar --use-compress-program=xz -xf *-imagebuilder-*
+                wget -nv "$RELEASE"
+                tar -xJf *-imagebuilder-*
             fi
             rm -f *-imagebuilder-*.tar.*
             mv *-imagebuilder-* $WORKING_DIR
