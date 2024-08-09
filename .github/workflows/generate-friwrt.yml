@@ -199,19 +199,16 @@ jobs:
       - name: Download Image Builder
         id: download
         run: |
-            SNAPSHOTS="$DOWNLOAD_BASE/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$TARGET_NAME.Linux-x86_64.tar.zst"
-            RELEASE="$DOWNLOAD_BASE/releases/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$BRANCH-$TARGET_NAME.Linux-x86_64.tar.xz"
-            if [ "$BRANCH" == "snapshots" ]; then
-              wget -nv "$SNAPSHOTS"
-              tar -xJf *-imagebuilder-*
-            else
-              wget -nv "$RELEASE"
-              tar --use-compress-program=xz -xf *-imagebuilder-*
-            fi
-            rm -f *-imagebuilder-*.tar.*
-            mv *-imagebuilder-* $WORKING_DIR
-            cp -r $GITHUB_WORKSPACE/origin/* $GITHUB_WORKSPACE/$WORKING_DIR
-            echo "status=success" >> $GITHUB_OUTPUT
+          SNAPSHOTS="$DOWNLOAD_BASE/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$TARGET_NAME.Linux-x86_64.tar.zst"
+          RELEASE="$DOWNLOAD_BASE/releases/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$BRANCH-$TARGET_NAME.Linux-x86_64.tar.xz"
+          if [ "$BRANCH" == "snapshots" ]; then
+              wget -qO- "$SNAPSHOTS" | tar -xJf
+          else
+              wget -q0- "$RELEASE" | tar --use-compress-program=xz -xf
+          fi
+          mv *-imagebuilder-* $WORKING_DIR
+          cp -r $GITHUB_WORKSPACE/origin/* $GITHUB_WORKSPACE/$WORKING_DIR
+          echo "status=success" >> $GITHUB_OUTPUT
       
       - name: Download External Packages
         id: packages
