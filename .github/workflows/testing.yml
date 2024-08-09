@@ -150,6 +150,13 @@ jobs:
             echo "ARCH_2=x86_64" >> $GITHUB_ENV
             echo "ARCH_3=x86_64" >> $GITHUB_ENV
           fi
+
+          if [[ "${RELEASE_BRANCH#*:}" == "snapshots" ]]; then
+            echo "FILE_EXT=tar.zst" >> $GITHUB_ENV
+          else
+            echo "FILE_EXT=tar.xz" >> $GITHUB_ENV
+          fi
+
           echo "WORKING_DIR="${RELEASE_BRANCH%:*}"-imagebuilder-"$TARGET_NAME".Linux-x86_64" >> $GITHUB_ENV
           echo "DOWNLOAD_BASE=https://downloads."${RELEASE_BRANCH%:*}".org" >> $GITHUB_ENV
           echo "BASE=${RELEASE_BRANCH%:*}" >> $GITHUB_ENV
@@ -167,10 +174,10 @@ jobs:
       - name: Download Image Builder
         id: download
         run: |
-          SNAPSHOTS="$DOWNLOAD_BASE/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$TARGET_NAME.Linux-x86_64.tar.xz"
-          RELEASE="$DOWNLOAD_BASE/releases/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$BRANCH-$TARGET_NAME.Linux-x86_64.tar.xz"
+          SNAPSHOTS="$DOWNLOAD_BASE/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$TARGET_NAME.Linux-x86_64.$FILE_EXT"
+          RELEASE="$DOWNLOAD_BASE/releases/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$BRANCH-$TARGET_NAME.Linux-x86_64.$FILE_EXTz"
           [ "$BRANCH" == "snapshots" ] && wget -nv "$SNAPSHOTS" || wget -nv "$RELEASE"
-          tar -xJf *-imagebuilder-* && sync && rm -f *-imagebuilder-*.tar.xz && mv *-imagebuilder-* $WORKING_DIR && sync
+          tar -xJf *-imagebuilder-* && sync && rm -f *-imagebuilder-*.$FILE_EXT && mv *-imagebuilder-* $WORKING_DIR && sync
           cp -r $GITHUB_WORKSPACE/origin/* $GITHUB_WORKSPACE/$WORKING_DIR
           echo "status=success" >> $GITHUB_OUTPUT
       
