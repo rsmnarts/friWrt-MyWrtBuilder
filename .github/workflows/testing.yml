@@ -176,10 +176,12 @@ jobs:
               tar -xJf *-imagebuilder-*
           fi
           rm -f *-imagebuilder-*.tar.*
-          ls -l *-imagebuilder-*
           mv *-imagebuilder-* $WORKING_DIR
+          ls -l $GITHUB_WORKSPACE
           ls -l $WORKING_DIR
-          cp -r $GITHUB_WORKSPACE/origin/* $GITHUB_WORKSPACE/$WORKING_DIR
+          ls -l $GITHUB_WORKSPACE/origin
+          cp -r $GITHUB_WORKSPACE/origin/* $WORKING_DIR
+          ls -l $GITHUB_WORKSPACE/$WORKING_DIR
           echo "status=success" >> $GITHUB_OUTPUT
       
       - name: Download External Packages
