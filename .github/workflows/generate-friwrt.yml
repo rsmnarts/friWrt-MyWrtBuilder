@@ -202,7 +202,8 @@ jobs:
           SNAPSHOTS="$DOWNLOAD_BASE/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$TARGET_NAME.Linux-x86_64.tar.zst"
           RELEASE="$DOWNLOAD_BASE/releases/$BRANCH/targets/$TARGET_SYSTEM/$BASE-imagebuilder-$BRANCH-$TARGET_NAME.Linux-x86_64.tar.xz"
           [ "$BRANCH" == "snapshots" ] && wget -nv "$SNAPSHOTS" || wget -nv "$RELEASE"
-          (tar -xJf *-imagebuilder-* || tar --use-compress-program=zstd -xf *-imagebuilder-* ) && sync rm -f *-imagebuilder-*.tar.* && mv *-imagebuilder-* $WORKING_DIR && sync
+          [ "$BRANCH" == "snapshots" ] && tar -xJf *-imagebuilder-* || tar --use-compress-program=zstd -xf *-imagebuilder-*
+          sync rm -f *-imagebuilder-*.tar.* && mv *-imagebuilder-* $WORKING_DIR && sync
           cp -r $GITHUB_WORKSPACE/origin/* $GITHUB_WORKSPACE/$WORKING_DIR
           echo "status=success" >> $GITHUB_OUTPUT
       
