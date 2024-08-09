@@ -138,7 +138,6 @@ jobs:
             echo "PROFILE=xunlong_orangepi-zero3" >> $GITHUB_ENV
             echo "TARGET_SYSTEM=sunxi/cortexa53" >> $GITHUB_ENV
             echo "TARGET_NAME=sunxi-cortexa53" >> $GITHUB_ENV
-            TARGET_NAME="sunxi-cortexa53"
             echo "ARCH_1=armv8" >> $GITHUB_ENV
             echo "ARCH_2=aarch64" >> $GITHUB_ENV
             echo "ARCH_3=aarch64_generic" >> $GITHUB_ENV
@@ -177,7 +176,10 @@ jobs:
               tar -xJf *-imagebuilder-*
           fi
           rm -f *-imagebuilder-*.tar.*
-          cp -r $GITHUB_WORKSPACE/origin/* $WORKING_DIR
+          ls -l *-imagebuilder-*
+          mv *-imagebuilder-* $WORKING_DIR
+          ls -l $WORKING_DIR
+          cp -r $GITHUB_WORKSPACE/origin/* $GITHUB_WORKSPACE/$WORKING_DIR
           echo "status=success" >> $GITHUB_OUTPUT
       
       - name: Download External Packages
