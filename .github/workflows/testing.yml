@@ -19,6 +19,7 @@ on:
           - Raspberry Pi 3B
           - Raspberry Pi 4B
           - NanoPi-R5S
+          - Orange Pi Zero 3
           - x86-64
       release_branch:
         description: "Select the release branch:"
@@ -130,6 +131,14 @@ jobs:
             echo "PROFILE=friendlyarm_nanopi-r5s" >> $GITHUB_ENV
             echo "TARGET_SYSTEM=rockchip/armv8" >> $GITHUB_ENV
             echo "TARGET_NAME=rockchip-armv8" >> $GITHUB_ENV
+            echo "ARCH_1=armv8" >> $GITHUB_ENV
+            echo "ARCH_2=aarch64" >> $GITHUB_ENV
+            echo "ARCH_3=aarch64_generic" >> $GITHUB_ENV
+          elif [ "$TARGET" == "Orange Pi Zero 3" ]; then
+            echo "PROFILE=xunlong_orangepi-zero3" >> $GITHUB_ENV
+            echo "TARGET_SYSTEM=sunxi/cortexa53" >> $GITHUB_ENV
+            echo "TARGET_NAME=sunxi-cortexa53" >> $GITHUB_ENV
+            TARGET_NAME="sunxi-cortexa53"
             echo "ARCH_1=armv8" >> $GITHUB_ENV
             echo "ARCH_2=aarch64" >> $GITHUB_ENV
             echo "ARCH_3=aarch64_generic" >> $GITHUB_ENV
