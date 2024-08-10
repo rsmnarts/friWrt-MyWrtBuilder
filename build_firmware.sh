@@ -28,9 +28,6 @@ usage() {
     echo "  -n, --tunnel            Set the tunnel (default: $TUNNEL)"
     echo "  -c, --clean             Clean build (true/false, default: $CLEAN)"
     echo "  -s, --squashfs          Generate SquashFS image (true/false, default: $SQUASHFS)"
-    echo "  -a, --upload-artifacts  Upload artifacts (true/false, default: $UPLOAD_ARTIFACTS)"
-    echo "  -p, --upload-prerelease Upload pre-release (true/false, default: $UPLOAD_PRERELEASE)"
-    echo "  -v, --revision-tag      Add revision tag (true/false, default: $REVISION_TAG)"
     echo "  -u, --update            Update the script (true/false, default: $UPDATE)"
     echo " -rm, --remove            Remove cache (true/false, default: $REMOVE)"
     echo "  -h, --help              Display this help message"
@@ -45,6 +42,8 @@ while [[ "$#" -gt 0 ]]; do
         -n|--tunnel) export TUNNEL="$2"; shift ;;
         -c|--clean) export CLEAN="$2"; shift ;;
         -s|--squashfs) export SQUASHFS="$2"; shift ;;
+        -u|--update) export UPDATE="$2"; shift ;;
+        -rm|--remove) export REMOVE="$2"; shift ;;
         -h|--help) usage ;;
         *) echo "Unknown option: $1"; usage ;;
     esac
